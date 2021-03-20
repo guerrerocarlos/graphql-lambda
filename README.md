@@ -10,20 +10,20 @@ Also based on Apollo Server (a community-maintained open-source GraphQL server t
 npm install graphql-lambda
 ```
 
-## Working Examples
+# Working Examples
 
 Ready-to-deploy-and-test (`serverless deploy`)  examples:
 
   * [graphql-lambda-nexus-example](https://github.com/guerrerocarlos/graphql-lambda-example) uses [nexus](https://nexus.js.org/)
   * [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example) uses GraphQL SDL 
 
-## Deploying with AWS Serverless Framework
+# Deploying with AWS Serverless Framework
 
-### GraphQL SDL Example:
+## GraphQL SDL Example:
 
-#### Define GraphQL Schemas
+### Define GraphQL Schemas
 
-The following the same GraphQL SDL setup as in [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example), define your Schemas and subscriptions in a file called `schema.ts`
+Following the same GraphQL SDL setup as in [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example) code, define your Schemas and subscriptions in a file called `schema.ts`
 
 ```ts
 import { pubSub, withFilter } from "../lambda";
@@ -96,7 +96,7 @@ export const resolvers = {
 };
 ```
 
-#### Initialize all components for Subscriptions to work with AWS API Gateway V2 Websockets:
+### Initialize all components for Subscriptions to work with AWS API Gateway V2 Websockets:
 
 In a file named `lambda.ts` place the following code:
 
@@ -142,9 +142,12 @@ export const connectionManager = new ApiGatewayConnectionManager({
 export * from "graphql-lambda";
 ```
 
-#### Server Creation 
+Later this could be removed and replace the `new Map()` memory storages with MySQL, Redis, DynamoDB, etc.
+
+### Server Creation 
 
 To take care of managing all graphql subscriptions and API Gateway Websockets Connections, place the following code in a file named `graphql.ts`, :
+
 
 ```js
 import {
@@ -180,11 +183,9 @@ export const handleWebSocket = server.createWebSocketHandler(); // Required for 
 export const eventHandler = server.createEventHandler(); // Required for subscription events
 ```
 
-#### Separate subscriptions events into separate function through SQS (for memory persistence)
+### Separate subscriptions events into separate function through SQS (for memory persistence)
 
 To keep this example simple and make it work without any kind of Database, we will make all graphql subscriptions events to be handled by a separated function, so we can just store everything in memory, and make sure only one function handles all the subscription-related events by piping all events through a AWS SQS FIFO Queue:
-
-Later this could be removed and replace the `new Map()` memory storages with MySQL, Redis, DynamoDB, etc.
 
 In a file named `handlers.ts`, place the following code:
 
@@ -377,7 +378,7 @@ module.exports = serverlessConfiguration;
 
 ```
 
-#### Deploy!
+### Deploy!
 
 Deploy to AWS Lambda and start testing!
 
