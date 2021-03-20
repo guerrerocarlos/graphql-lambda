@@ -1,6 +1,6 @@
 {
   "name": "graphql-lambda",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "github:guerrerocarlos/graphql-lambda",
@@ -9,7 +9,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
-  "keywords": [],
   "prepublish": "tsc",
   "author": "",
   "license": "ISC",
@@ -17,6 +16,12 @@
     "@types/aws-lambda": "^8.10.72",
     "typescript": "^4.2.3"
   },
+  "keywords": [
+    "graphql",
+    "graphql-js",
+    "aws",
+    "lambda"
+  ],
   "dependencies": {
     "@types/aws-lambda": "^8.10.36",
     "apollo-server-core": "^2.9.14",
