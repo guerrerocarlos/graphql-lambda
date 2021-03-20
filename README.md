@@ -14,7 +14,7 @@ npm install graphql-lambda
 
 Ready-to-deploy-and-test (`serverless deploy`)  examples:
 
-  * [graphql-lambda-nexus-example](https://github.com/guerrerocarlos/graphql-lambda-example) uses [nexus](https://nexus.js.org/)
+  * [graphql-lambda-nexus-example](https://github.com/guerrerocarlos/graphql-lambda-nexus-example) uses [nexus](https://nexus.js.org/)
   * [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example) uses GraphQL SDL 
 
 ## Deploying with AWS Serverless Framework
