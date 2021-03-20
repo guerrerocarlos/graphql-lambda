@@ -1,10 +1,10 @@
-[![npm version](https://badge.fury.io/js/graphql-lambda.svg)](https://badge.fury.io/js/graphql-lambda) 
+[![npm version](https://badge.fury.io/js/graphql-lambda.svg)](https://badge.fury.io/js/graphql-lambda)
 
-This is a AWS Lambda integration of GraphQL Server with Subscriptions support. 
+This is a AWS Lambda integration of GraphQL Server with Subscriptions support.
 
 Heavily inspired on [aws-lambda-graphql](https://github.com/michalkvasnicak/aws-lambda-graphql) module.
 
-Also based on Apollo Server (a community-maintained open-source GraphQL server that works with many Node.js HTTP server frameworks). [Read the docs](https://www.apollographql.com/docs/apollo-server/v2). [Read the CHANGELOG](https://github.com/apollographql/apollo-server/blob/main/CHANGELOG.md).
+Also based on Apollo Server (a community-maintained open-source GraphQL server that works with many Node.js HTTP server frameworks).
 
 ```shell
 npm install graphql-lambda
@@ -12,10 +12,10 @@ npm install graphql-lambda
 
 # Working Examples
 
-Ready-to-deploy-and-test (`serverless deploy`)  examples:
+## Ready-to-deploy (`serverless deploy`) examples:
 
-  * [graphql-lambda-nexus-example](https://github.com/guerrerocarlos/graphql-lambda-nexus-example) uses [nexus](https://nexus.js.org/)
-  * [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example) uses GraphQL SDL 
+-   [graphql-lambda-nexus-example](https://github.com/guerrerocarlos/graphql-lambda-nexus-example) uses [nexus](https://nexus.js.org/)
+-   [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example) uses GraphQL SDL
 
 # Deploying with AWS Serverless Framework
 
@@ -144,10 +144,9 @@ export * from "graphql-lambda";
 
 Later this could be removed and replace the `new Map()` memory storages with MySQL, Redis, DynamoDB, etc.
 
-### Server Creation 
+### Server Creation
 
 To take care of managing all graphql subscriptions and API Gateway Websockets Connections, place the following code in a file named `graphql.ts`, :
-
 
 ```js
 import {
@@ -375,7 +374,6 @@ const serverlessConfiguration: AWS = {
 };
 
 module.exports = serverlessConfiguration;
-
 ```
 
 ### Deploy!
@@ -388,8 +386,14 @@ serverless deploy
 
 ### Example Playground Screenshots
 
+Query:
+
 ![Screenshot 2021-03-20 at 4 06 47 PM](https://user-images.githubusercontent.com/82532/111876407-87b7c700-8996-11eb-9f60-3469f4559d21.jpg)
+
+Subscription:
 
 ![Screenshot 2021-03-20 at 4 06 31 PM](https://user-images.githubusercontent.com/82532/111876419-93a38900-8996-11eb-8282-74a5860030fa.jpg)
 
- ![Screenshot 2021-03-20 at 4 06 19 PM](https://user-images.githubusercontent.com/82532/111876437-a3bb6880-8996-11eb-98b4-7f30bac0bce7.jpg)
+Mutation:
+
+![Screenshot 2021-03-20 at 4 06 19 PM](https://user-images.githubusercontent.com/82532/111876437-a3bb6880-8996-11eb-98b4-7f30bac0bce7.jpg)
