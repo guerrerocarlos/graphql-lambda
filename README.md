@@ -377,3 +377,10 @@ module.exports = serverlessConfiguration;
 
 ```
 
+#### Deploy!
+
+Deploy to AWS Lambda and start testing!
+
+```sh
+serverless deploy
+```
