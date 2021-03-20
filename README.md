@@ -384,3 +384,11 @@ Deploy to AWS Lambda and start testing!
 ```sh
 serverless deploy
 ```
+
+### Example Playground Screenshots
+
+![Screenshot 2021-03-20 at 4 06 47 PM](https://user-images.githubusercontent.com/82532/111876407-87b7c700-8996-11eb-9f60-3469f4559d21.jpg)
+
+![Screenshot 2021-03-20 at 4 06 31 PM](https://user-images.githubusercontent.com/82532/111876419-93a38900-8996-11eb-8282-74a5860030fa.jpg)
+
+ ![Screenshot 2021-03-20 at 4 06 19 PM](https://user-images.githubusercontent.com/82532/111876437-a3bb6880-8996-11eb-98b4-7f30bac0bce7.jpg)
