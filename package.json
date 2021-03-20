@@ -1,9 +1,10 @@
 {
   "name": "graphql-lambda",
   "version": "1.0.1",
-  "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": "github:guerrerocarlos/graphql-lambda",
+  "description": "Ready-to-use Node.js GraphQL server for AWS Lambda (with subscriptions)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
@@ -23,7 +24,6 @@
     "aws-sdk": "^2.859.0",
     "graphql": "^15.5.0",
     "graphql-subscriptions": "^1.2.0",
-    "iterall": "^1.2.2",
-    "ulid": "^2.3.0"
+    "iterall": "^1.2.2"
   }
 }
