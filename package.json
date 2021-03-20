@@ -1,0 +1,29 @@
+{
+  "name": "graphql-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "prepublish": "tsc",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.72",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.36",
+    "apollo-server-core": "^2.9.14",
+    "apollo-server-lambda": "^2.9.14",
+    "aws-sdk": "^2.859.0",
+    "graphql": "^15.5.0",
+    "graphql-subscriptions": "^1.2.0",
+    "iterall": "^1.2.2",
+    "ulid": "^2.3.0"
+  }
+}
