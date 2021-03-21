@@ -23,7 +23,7 @@ npm install graphql-lambda
 
 ### Define GraphQL Schemas
 
-Following the same GraphQL SDL setup as in [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example) code, define your Schemas and subscriptions in a file called `schema.ts`
+Following the same GraphQL SDL setup as in [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example), define your Schemas and subscriptions in a file called `schema.ts`
 
 ```ts
 import { pubSub, withFilter } from "../lambda";
@@ -134,15 +134,15 @@ export class SQSQueue implements IEventStore {
 export const eventStore = new SQSQueue();
 export const pubSub = new PubSub({ eventStore });
 export const subscriptionManager = new SubscriptionManager({
-  subscriptionManagerStorage: new Map(), // Replace this with any persistence layer you prefer, Redis, MySQL, etc. (Map will use memory).
+  subscriptionManagerStorage: new Map(), // Replace this with any persistence layer you prefer, Redis, MySQL, etc.
 });
 export const connectionManager = new ApiGatewayConnectionManager({
-  connectionManagerStorage: new Map(), // Replace this with any persistence layer you prefer, Redis, MySQL, etc. (Map will use memory)
+  connectionManagerStorage: new Map(), // Replace this with any persistence layer you prefer, Redis, MySQL, etc.
 });
 export * from "graphql-lambda";
 ```
 
-Later this could be removed and replace the `new Map()` memory storages with MySQL, Redis, DynamoDB, etc.
+For production environments the `new Map()` should be replaced with a proper data storage like MySQL, Redis, DynamoDB, etc.
 
 ### Server Creation
 
