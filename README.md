@@ -139,6 +139,7 @@ export const subscriptionManager = new SubscriptionManager({
 export const connectionManager = new ApiGatewayConnectionManager({
   connectionManagerStorage: new Map(), // Replace this with any persistence layer you prefer, Redis, MySQL, etc.
 });
+export const eventProcessor = new EventProcessor()
 export * from "graphql-lambda";
 ```
 
@@ -146,7 +147,9 @@ For production environments the `new Map()` should be replaced with a proper dat
 
 ### Server Creation
 
-To take care of managing all graphql subscriptions and API Gateway Websockets Connections, place the following code in a file named `graphql.ts`, :
+Provide the schema (type definitions and resolvers) to the GraphQL Server, together with the `subscriptionsManager`, `connectionManager` and `eventProcessor` defined in `lambda.ts`. 
+
+Place the following code in a file named `graphql.ts`:
 
 ```js
 import {
@@ -156,16 +159,17 @@ import {
   EventProcessor,
   APIGatewayWebSocketEvent,
   eventStore,
+  eventProcessor,
 } from "./lambda";
 
 import { typeDefs, resolvers } from "./graphql/schema";
 
 const server = new Server({
-  typeDefs,
-  resolvers,
-
+  typeDefs,  // (schema-first approach)
+  resolvers, // (schema-first approach)
+  // schema, // (code-first approach)
   connectionManager,
-  eventProcessor: new EventProcessor(),
+  eventProcessor,
   subscriptionManager,
 
   onError: (err) => {
@@ -181,6 +185,8 @@ export const handleHttp = server.createHttpHandler();
 export const handleWebSocket = server.createWebSocketHandler(); // Required for subscriptions websockets
 export const eventHandler = server.createEventHandler(); // Required for subscription events
 ```
+
+Optionally, a `schema` parameter can be provided to the server instead of `typeDefs` and `resolvers`.
 
 ### Separate subscriptions events into separate function through SQS (for memory persistence)
 
@@ -257,6 +263,7 @@ const serverlessConfiguration: AWS = {
     },
     name: "aws",
     runtime: "nodejs12.x",
+    region: "us-east-1",
     memorySize: 512,
     iam: {
       role: {
