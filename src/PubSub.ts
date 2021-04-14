@@ -41,7 +41,6 @@ export class PubSub {
     this.serializeEventPayload = serializeEventPayload;
     this.debug = debug;
   }
-
   subscribe = (eventNames: string | string[]): SubcribeResolveFn => {
     return async (rootValue, args, { $$internal }) => {
       const {
@@ -93,4 +92,6 @@ export class PubSub {
       event: eventName,
     });
   };
+
+  asyncIterator = this.subscribe
 }
