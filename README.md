@@ -1,10 +1,10 @@
-[![npm version](https://badge.fury.io/js/graphql-lambda.svg)](https://badge.fury.io/js/graphql-lambda) 
+[![npm version](https://badge.fury.io/js/graphql-lambda.svg)](https://badge.fury.io/js/graphql-lambda)
 
-This is a AWS Lambda integration of GraphQL Server with Subscriptions support. 
+This is a AWS Lambda integration of GraphQL Server with Subscriptions support.
 
 Heavily inspired on [aws-lambda-graphql](https://github.com/michalkvasnicak/aws-lambda-graphql) module.
 
-Also based on Apollo Server (a community-maintained open-source GraphQL server that works with many Node.js HTTP server frameworks). [Read the docs](https://www.apollographql.com/docs/apollo-server/v2). [Read the CHANGELOG](https://github.com/apollographql/apollo-server/blob/main/CHANGELOG.md).
+Also based on Apollo Server (a community-maintained open-source GraphQL server that works with many Node.js HTTP server frameworks).
 
 ```shell
 npm install graphql-lambda
@@ -12,10 +12,10 @@ npm install graphql-lambda
 
 # Working Examples
 
-Ready-to-deploy-and-test (`serverless deploy`)  examples:
+## Ready-to-deploy (`serverless deploy`) examples:
 
-  * [graphql-lambda-nexus-example](https://github.com/guerrerocarlos/graphql-lambda-nexus-example) uses [nexus](https://nexus.js.org/)
-  * [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example) uses GraphQL SDL 
+-   [graphql-lambda-nexus-example](https://github.com/guerrerocarlos/graphql-lambda-nexus-example) uses [nexus](https://nexus.js.org/)
+-   [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example) uses GraphQL SDL
 
 # Deploying with AWS Serverless Framework
 
@@ -23,7 +23,7 @@ Ready-to-deploy-and-test (`serverless deploy`)  examples:
 
 ### Define GraphQL Schemas
 
-Following the same GraphQL SDL setup as in [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example) code, define your Schemas and subscriptions in a file called `schema.ts`
+Following the same GraphQL SDL setup as in [graphql-lambda-sdl-example](https://github.com/guerrerocarlos/graphql-lambda-sdl-example), define your Schemas and subscriptions in a file called `schema.ts`
 
 ```ts
 import { pubSub, withFilter } from "../lambda";
@@ -134,20 +134,22 @@ export class SQSQueue implements IEventStore {
 export const eventStore = new SQSQueue();
 export const pubSub = new PubSub({ eventStore });
 export const subscriptionManager = new SubscriptionManager({
-  subscriptionManagerStorage: new Map(), // Replace this with any persistence layer you prefer, Redis, MySQL, etc. (Map will use memory).
+  subscriptionManagerStorage: new Map(), // Replace this with any persistence layer you prefer, Redis, MySQL, etc.
 });
 export const connectionManager = new ApiGatewayConnectionManager({
-  connectionManagerStorage: new Map(), // Replace this with any persistence layer you prefer, Redis, MySQL, etc. (Map will use memory)
+  connectionManagerStorage: new Map(), // Replace this with any persistence layer you prefer, Redis, MySQL, etc.
 });
+export const eventProcessor = new EventProcessor()
 export * from "graphql-lambda";
 ```
 
-Later this could be removed and replace the `new Map()` memory storages with MySQL, Redis, DynamoDB, etc.
+For production environments the `new Map()` should be replaced with a proper data storage like MySQL, Redis, DynamoDB, etc.
 
-### Server Creation 
+### Server Creation
 
-To take care of managing all graphql subscriptions and API Gateway Websockets Connections, place the following code in a file named `graphql.ts`, :
+Provide the schema (type definitions and resolvers) to the GraphQL Server, together with the `subscriptionsManager`, `connectionManager` and `eventProcessor` defined in `lambda.ts`. 
 
+Place the following code in a file named `graphql.ts`:
 
 ```js
 import {
@@ -157,16 +159,17 @@ import {
   EventProcessor,
   APIGatewayWebSocketEvent,
   eventStore,
+  eventProcessor,
 } from "./lambda";
 
 import { typeDefs, resolvers } from "./graphql/schema";
 
 const server = new Server({
-  typeDefs,
-  resolvers,
-
+  typeDefs,  // (schema-first approach)
+  resolvers, // (schema-first approach)
+  // schema, // (code-first approach)
   connectionManager,
-  eventProcessor: new EventProcessor(),
+  eventProcessor,
   subscriptionManager,
 
   onError: (err) => {
@@ -182,6 +185,8 @@ export const handleHttp = server.createHttpHandler();
 export const handleWebSocket = server.createWebSocketHandler(); // Required for subscriptions websockets
 export const eventHandler = server.createEventHandler(); // Required for subscription events
 ```
+
+Optionally, a `schema` parameter can be provided to the server instead of `typeDefs` and `resolvers`.
 
 ### Separate subscriptions events into separate function through SQS (for memory persistence)
 
@@ -258,6 +263,7 @@ const serverlessConfiguration: AWS = {
     },
     name: "aws",
     runtime: "nodejs12.x",
+    region: "us-east-1",
     memorySize: 512,
     iam: {
       role: {
@@ -375,7 +381,6 @@ const serverlessConfiguration: AWS = {
 };
 
 module.exports = serverlessConfiguration;
-
 ```
 
 ### Deploy!
@@ -388,8 +393,14 @@ serverless deploy
 
 ### Example Playground Screenshots
 
+Query:
+
 ![Screenshot 2021-03-20 at 4 06 47 PM](https://user-images.githubusercontent.com/82532/111876407-87b7c700-8996-11eb-9f60-3469f4559d21.jpg)
+
+Subscription:
 
 ![Screenshot 2021-03-20 at 4 06 31 PM](https://user-images.githubusercontent.com/82532/111876419-93a38900-8996-11eb-8282-74a5860030fa.jpg)
 
- ![Screenshot 2021-03-20 at 4 06 19 PM](https://user-images.githubusercontent.com/82532/111876437-a3bb6880-8996-11eb-98b4-7f30bac0bce7.jpg)
+Mutation:
+
+![Screenshot 2021-03-20 at 4 06 19 PM](https://user-images.githubusercontent.com/82532/111876437-a3bb6880-8996-11eb-98b4-7f30bac0bce7.jpg)
